@@ -44,14 +44,21 @@
                 palette_element.addEventListener('click', (e) => {
                     location.replace(`/design.html?index=${index}`)
                 });
-
+                
+                const img_container = document.createElement('div');
+                img_container.classList.add('img-container');
+                palette_element.appendChild(img_container);
 
                 const img = document.createElement('img');
                 img.src = design;
                 img.height = 300;   
                 img.style.margin = 'auto';
+                img_container.appendChild(img);
 
-                palette_element.appendChild(img);
+                const title = document.createElement('h2');
+                title.innerText = 'untitled'
+                palette_element.appendChild(title);
+
                 palette_list.appendChild(palette_element)
             })
         })

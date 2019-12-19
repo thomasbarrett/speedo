@@ -95,16 +95,19 @@ header.subheader {
 }
 
 .design {
-    display: flex;
     box-sizing: border-box;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0px 0px 8px 0px #a3b4be;
     background: white;
+}
+
+.design > .img-container {
+    display: flex;
     justify-content: center;
 }
 
-.palette > img {
+.design > .img-container > img {
     display: block;
     margin: auto;
 }
