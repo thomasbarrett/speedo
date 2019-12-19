@@ -106,7 +106,7 @@
                 var fd = new FormData();
                 fd.append('file', dataURItoBlob(dataURL()));
                 fetch('https://triceratalk.com/publish', {
-                    method: 'post',
+                    method: 'POST',
                     body: fd,
                 })
             });

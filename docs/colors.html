@@ -13,7 +13,7 @@
         <div>
             <a href="designs">Community</a>
             <a href="custom">Customize</a>
-            <a href="">Palettes</a>
+            <a href="/speedo">Palettes</a>
             <a href="colors.html">Random</a>
         </div>
     </header>
@@ -22,6 +22,7 @@
         <h2 id='name'></h2>
         <a id='new-palette'>New Palette with Selection</a>
     </header>
+
 
     <div class='palette-list' id='palette-list'></div>
     <div class='colors' id='color-list'></div>
@@ -67,19 +68,18 @@
         new_palette.addEventListener('click', (e) => {
             if (state.selected_colors.length > 0) {
                 fetch('https://triceratalk.com/palettes', {
-                redirect: 'error',
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: 'untitled',
-                    colors: state.selected_colors
-                })
-            })
-            location.replace('');
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: 'untitled',
+                        colors: state.selected_colors
+                    })
+                }).then((e) => {
+                    location.replace('/speedo');
+                });
             }
-           
         })
 
     </script>
