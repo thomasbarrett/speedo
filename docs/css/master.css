@@ -55,8 +55,7 @@ header.subheader {
 .colors {
     display: grid;
     grid-template-columns: repeat(auto-fit, 100px);
-    row-gap: 4px;
-    column-gap: 4px;
+    gap: 4px;
     margin: auto;
     justify-content: center;
 }
@@ -81,8 +80,7 @@ header.subheader {
 .palette-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, 220px);
-    row-gap: 10px;
-    column-gap: 10px;
+    gap: 10px;
     justify-content: center;
 
 }
