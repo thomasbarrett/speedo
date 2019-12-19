@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <link rel="stylesheet" href="/css/master.css">
+</head>
+<body>
+    <header>
+        <img class="speedo" src="/custom/images/speedo-logo-small.png" alt="Speedo">
+        <div>
+            <a href="/designs">Community</a>
+            <a href="/custom">Customize</a>
+            <a href="/">Palettes</a>
+            <a href="/colors.html">Random</a>
+        </div>
+    </header>
+
+    <header class='subheader'>
+        <h2>Filter</h2>
+        <div>
+            <a>Popular</a>
+            <a>Recent</a>
+        </div>
+    </header>
+
+    <div class='palette-list' id='palette-list'></div>
+    <div class='colors' id='color-list'></div>
+    <script type="module">
+
+        const palette_list = document.getElementById('palette-list');
+        fetch('http://localhost:3000/designs')
+        .then(res => res.json())
+        .then(json => {
+            json.designs.forEach((design, index) => {
+                console.log(design);
+
+                const palette_element = document.createElement('div')
+                palette_element.classList.add('design')
+                palette_element.addEventListener('click', (e) => {
+                    location.replace(`/design.html?index=${index}`)
+                });
+
+
+                const img = document.createElement('img');
+                img.src = design;
+                img.height = 300;   
+                img.style.margin = 'auto';
+
+                palette_element.appendChild(img);
+                palette_list.appendChild(palette_element)
+            })
+        })
+
+    </script>
+</body>
+</html>

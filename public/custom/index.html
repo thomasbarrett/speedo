@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - OBJLoader + MTLLoader</title>
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/ec135c73c5.js"></script>
+        <link rel="stylesheet" href="/custom/css/index.css">
+        <link rel="stylesheet" href="/css/master.css">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/108/three.min.js"></script>
+	</head>
+	<body>
+        <header>
+            <img class="speedo" src="/custom/images/speedo-logo-small.png" alt="Speedo">
+            <div>
+                <a href="/designs">Community</a>
+                <a href="/custom">Customize</a>
+                <a href="/">Palettes</a>
+                <a href="/colors.html">Random</a>
+            </div>
+        </header>
+    
+        <header class='subheader'>
+            <h2>Custom</h2>
+            <div>
+                <a id='publish'>Publish</a>
+                <a>Buy Now</a>
+            </div>
+        </header>
+        <div>
+
+        <div class="customization">
+            <div class='options'>
+                <h2 id='title'>Front</h2>
+                <div>
+                    <a id='prev-palette'>Previous Palette</a>
+                    <a id='next-palette'>Next Palette</a>
+                </div>
+            </div>
+            <div class="patterns row"></div>
+            <div class="colors row"></div>
+        </div>
+        </div>
+        <script>
+            // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+            let vh = window.innerHeight * 0.01;
+            // Then we set the value in the --vh custom property to the root of the document
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+            // We listen to the resize event
+            window.addEventListener('resize', () => {
+            // We execute the same script as before
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+            });
+        </script>
+        <script type="module">
+            import {modelNotifier, dataURL} from './src/index.js'
+            
+            function dataURItoBlob(dataURI) {
+                // convert base64 to raw binary data held in a string
+                // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+                var byteString = atob(dataURI.split(',')[1]);
+                // separate out the mime component
+                var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+                // write the bytes of the string to an ArrayBuffer
+                var ab = new ArrayBuffer(byteString.length);
+                var dw = new DataView(ab);
+                for(var i = 0; i < byteString.length; i++) {
+                    dw.setUint8(i, byteString.charCodeAt(i));
+                }
+                // write the ArrayBuffer to a blob, and you're done
+                return new Blob([ab], {type: mimeString});
+            }
+       
+
+            fetch('http://localhost:3000/palettes')
+            .then(res => res.json())
+            .then(json => {
+                
+            let index = 0;
+
+            const prev_palette = document.getElementById('prev-palette');
+            prev_palette.addEventListener('click', (e) => {
+                console.log('prev');
+                if (index > 0) {
+                    index -= 1
+                }
+                run(index);
+            })
+            const next_palette = document.getElementById('next-palette');
+            next_palette.addEventListener('click', (e) => {
+                console.log('next');
+                if (index < json.palettes.length - 1) {
+                    index += 1;
+                }
+                run(index);
+            })
+
+            const publish = document.getElementById('publish');
+            publish.addEventListener('click', () => {
+                var fd = new FormData();
+                fd.append('file', dataURItoBlob(dataURL()));
+                fetch('http://localhost:3000/publish', {
+                    method: 'post',
+                    body: fd,
+                })
+            });
+            
+            function run(index) {
+            
+            let colors = json.palettes[index].colors.map(color => color.hexcode);
+            
+            let activeElement = null;
+
+
+            let color_row = document.querySelector('.colors.row');
+            let patterns_row = document.querySelector('.patterns.row');
+            color_row.innerHTML = '';
+            patterns_row.innerHTML = '';
+
+            colors.forEach(color => {
+                let colorElement = document.createElement('div');
+                colorElement.classList.add('square');
+                colorElement.style.background = color;
+                colorElement.onclick = () => {
+                    activeElement.forEach(element => {
+                        element.material = element.material.clone();
+                        element.material.color.set(parseInt(color.substr(1), 16));
+                        element.material.needsUpdate = true;
+                    })
+                }
+                color_row.appendChild(colorElement);
+            })
+
+
+            /*
+            let colorElement = document.createElement('div');
+            colorElement.classList.add('square');
+            colorElement.style.background = '#EEEEEE';
+            colorElement.onclick = () => {
+                activeElement.forEach(element => {
+
+                    let solid_map = THREE.ImageUtils.loadTexture('images/prints/solid.jpg');
+                    solid_map.wrapT = THREE.MirroredRepeatWrapping;
+                    solid_map.wrapS = THREE.MirroredRepeatWrapping
+
+                    element.material = element.material.clone();
+                    element.material.map = solid_map;
+                    element.material.needsUpdate = true;
+                })
+            }
+            patterns_row.appendChild(colorElement);
+           
+            let zebraElement = document.createElement('div');
+            zebraElement.classList.add('square');
+            zebraElement.style.background = 'url("images/prints/zebra-icon.png")';
+            zebraElement.onclick = () => {
+                activeElement.forEach(element => {
+
+                    let zebra_map = THREE.ImageUtils.loadTexture('images/prints/zebra.png');
+                    zebra_map.repeat.x = 0.5;
+                    zebra_map.repeat.y = 0.5;
+                    zebra_map.wrapT = THREE.MirroredRepeatWrapping;
+                    zebra_map.wrapS = THREE.MirroredRepeatWrapping
+
+                    element.material = element.material.clone();
+                    element.material.map = zebra_map;
+                    element.material.needsUpdate = true;
+                })
+            }
+            patterns_row.appendChild(zebraElement);
+
+            let checkeredElement = document.createElement('div');
+            checkeredElement.classList.add('square');
+            checkeredElement.style.background = 'url("images/prints/checkers-icon.png")';
+            checkeredElement.onclick = () => {
+                activeElement.forEach(element => {
+
+                    let checkers_map = THREE.ImageUtils.loadTexture('images/prints/checkers.jpg');
+                    checkers_map.repeat.x = 0.5;
+                    checkers_map.repeat.y = 0.5;
+                    checkers_map.wrapT = THREE.MirroredRepeatWrapping;
+                    checkers_map.wrapS = THREE.MirroredRepeatWrapping
+
+                    element.material = element.material.clone();
+                    element.material.map = checkers_map;
+                    element.material.needsUpdate = true;
+                })
+            }
+            patterns_row.appendChild(checkeredElement);
+
+            let hexElement = document.createElement('div');
+            hexElement.classList.add('square');
+            hexElement.style.background = 'url("images/prints/hexagon-icon.png")';
+            hexElement.onclick = () => {
+                activeElement.forEach(element => {
+
+                    let checkers_map = THREE.ImageUtils.loadTexture('images/prints/hexagon.jpg');
+                    checkers_map.repeat.x = 0.8;
+                    checkers_map.repeat.y = 0.8;
+                    checkers_map.wrapT = THREE.MirroredRepeatWrapping;
+                    checkers_map.wrapS = THREE.MirroredRepeatWrapping
+
+                    element.material = element.material.clone();
+                    element.material.map = checkers_map;
+                    element.material.needsUpdate = true;
+                })
+            }
+            patterns_row.appendChild(hexElement);
+
+            let zigElement = document.createElement('div');
+            zigElement.classList.add('square');
+            zigElement.style.background = 'url("images/prints/zigzag-icon.png")';
+            zigElement.onclick = () => {
+                activeElement.forEach(element => {
+
+                    let checkers_map = THREE.ImageUtils.loadTexture('images/prints/zigzag.jpg');
+                    checkers_map.repeat.x = 0.8;
+                    checkers_map.repeat.y = 0.8;
+                    checkers_map.wrapT = THREE.RepeatWrapping;
+                    checkers_map.wrapS = THREE.RepeatWrapping
+
+                    element.material = element.material.clone();
+                    element.material.map = checkers_map;
+                    element.material.needsUpdate = true;
+                })
+            }
+            patterns_row.appendChild(zigElement);
+
+            let zigElement2 = document.createElement('div');
+            zigElement2.classList.add('square');
+            zigElement2.style.background = 'url("images/prints/zigzag2-icon.png")';
+            zigElement2.onclick = () => {
+                activeElement.forEach(element => {
+
+                    let checkers_map = THREE.ImageUtils.loadTexture('images/prints/zigzag2.jpg');
+                    checkers_map.repeat.x = 0.8;
+                    checkers_map.repeat.y = 0.8;
+                    checkers_map.wrapT = THREE.RepeatWrapping;
+                    checkers_map.wrapS = THREE.RepeatWrapping
+
+                    element.material = element.material.clone();
+                    element.material.map = checkers_map;
+                    element.material.needsUpdate = true;
+                })
+            }
+            patterns_row.appendChild(zigElement2);
+
+            */
+
+            modelNotifier.subscribe('front-side', (object) => {
+                let title = document.getElementById('title');
+                title.innerText = "Front"
+                activeElement = object;
+                document.querySelector('.row').classList.remove('hidden');
+            });
+
+            modelNotifier.subscribe('back-strap', (object) => {
+                let title = document.getElementById('title');
+                title.innerText = "Back Strap";
+                activeElement = object;
+                document.querySelector('.row').classList.remove('hidden');
+            });
+
+            modelNotifier.subscribe('left-side', (object) => {
+                let title = document.getElementById('title');
+                title.innerText = "Left Side";
+                activeElement = object;
+                document.querySelector('.row').classList.remove('hidden');
+            });
+
+            modelNotifier.subscribe('right-side', (object) => {
+                let title = document.getElementById('title');
+                title.innerText = "Right Side";
+                activeElement = object;
+                document.querySelector('.row').classList.remove('hidden');
+            });
+
+            modelNotifier.subscribe('inner-lining', (object) => {
+                let title = document.getElementById('title');
+                title.innerText = "Inner Lining";
+                activeElement = object;
+                document.querySelector('.row').classList.remove('hidden');
+            });
+
+            modelNotifier.subscribe('upper-straps', (object) => {
+                let title = document.getElementById('title');
+                title.innerText = "Upper Straps";
+                activeElement = object;
+                document.querySelector('.row').classList.remove('hidden');
+            });
+
+            }
+
+            run(0);
+ 
+            });
+       
+        </script>
+	</body>
+</html>

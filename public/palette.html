@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Palette</title>
+    <link rel="stylesheet" href="/css/master.css">
+</head>
+<body>
+    <header>
+        <img class="speedo" src="/custom/images/speedo-logo-small.png" alt="Speedo">
+        <div>
+            <a href="/designs">Community</a>
+            <a href="/custom">Customize</a>
+            <a href="/">Palettes</a>
+            <a href="/colors.html">Random</a>
+        </div>
+    </header>
+
+    <header class='subheader'>
+        <h2 id='name'></h2>
+    </header>
+
+    <div class='colors'></div>
+    <script>
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    fetch('http://localhost:3000/palettes')
+        .then(res => res.json())
+        .then(json => {
+            const index = getUrlParameter('index');
+            const palette = json.palettes[index];
+            const nameElement = document.getElementById('name');
+            nameElement.innerText = palette.name;
+            nameElement.contentEditable = true;
+            nameElement.addEventListener('keydown', (e) => {
+                if (e.which === 13) {
+                    e.preventDefault();
+                }
+            });
+
+            const colorsElement = document.querySelector('.colors');
+
+            palette.colors.forEach(color => {
+                const div = document.createElement('div')
+                div.innerText = color.hexcode
+                div.style.background = color.hexcode
+                colorsElement.appendChild(div)
+            })
+        })
+
+    </script>
+</body>
+</html>

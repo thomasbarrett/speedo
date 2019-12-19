@@ -1,0 +1,132 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100 - 160px);
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-columns: 50% 50%;
+}
+
+canvas {
+    max-height: 100%;
+    margin: auto;
+}
+
+.options {
+    display: flex;
+    margin: 10px 0;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.options h2 {
+    font-size: 1.5em;
+}
+.options a {
+    background: rgb(240, 240, 240);
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: black;
+}
+.customization {
+    margin: 20px;
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 8px 0px #a3b4be;
+    background: white;
+    overflow: scroll;
+}
+
+.customization .colors {
+    justify-content: left !important;
+}
+
+.red {
+    background: red;
+}
+
+.orange {
+    background: orange;
+}
+
+.purple {
+    background: purple;
+}
+
+.yellow {
+    background: yellow;
+}
+
+.green {
+    background: green;
+}
+
+.blue {
+    background: blue;
+}
+
+.black {
+    background: black;
+}
+
+.white {
+    background: white;
+}
+
+.row {
+    display: flex;
+    max-width: 100%;
+    overflow: scroll;
+}
+
+.square {
+    display: block;
+    min-width: 100px;
+    min-height: 100px;
+    width: 100px;
+    height: 100px;
+    border: 1px solid rgb(217,234,231);
+}
+
+.square.selected {
+    border: 1px solid rgb(18,121,201);
+}
+
+.hidden {
+    display: none;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    background: white;
+}
+
+.toolbar .title {
+    padding: 10px 20px;
+}
+
+.toolbar div {
+    display: flex;
+}
+
+button {
+    display: inline-block;
+    font-size: 32px;
+    height: 64px;
+    width: 64px;
+    margin: 0;
+    line-height: 64px;
+    text-align: center;
+    background: none;
+    appearance: none;
+    border: none;
+    border-left: 1px solid #cccccc;
+    -webkit-appearance: none;
+}

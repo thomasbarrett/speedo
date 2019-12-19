@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <link rel="stylesheet" href="/css/master.css">
+</head>
+<body>
+    <header>
+        <img class="speedo" src="/custom/images/speedo-logo-small.png" alt="Speedo">
+        <div>
+            <a href="/designs">Community</a>
+            <a href="/custom">Customize</a>
+            <a href="/">Palettes</a>
+            <a href="/colors.html">Random</a>
+        </div>
+    </header>
+  
+    <header class='subheader'>
+        <h2 id='name'></h2>
+        <a id='new-palette'>New Palette with Selection</a>
+    </header>
+
+    <div class='palette-list' id='palette-list'></div>
+    <div class='colors' id='color-list'></div>
+    <script type="module">
+
+        const state = {
+            selected_colors: [],
+            toggle_color: function (color) {
+                if (this.selected_colors.includes(color)) {
+                    this.selected_colors = this.selected_colors.filter(c => c !== color);
+                } else {
+                    this.selected_colors.push(color);
+                }
+            },
+        };
+
+        function randomColor() {
+            var chars = '0123456789abcdef'.split('');
+            var hex = '#';
+            for (var i = 0; i < 6; i++) {
+                hex += chars[Math.floor(Math.random() * 16)];
+            }
+            return hex;
+        }
+
+        const list = document.getElementById('color-list');
+        list.innerHTML = '';
+        for (let i = 0; i < 64; i++) {
+            const color = {
+                hexcode: randomColor()
+            }
+            const div = document.createElement('div');
+            div.style.background = color.hexcode;
+            div.innerText = color.hexcode;
+            div.addEventListener('click', (e) => {
+                div.classList.toggle('selected');
+                state.toggle_color(color);
+            })
+            list.appendChild(div);
+        }
+
+        const new_palette = document.getElementById('new-palette');
+        new_palette.addEventListener('click', (e) => {
+            if (state.selected_colors.length > 0) {
+                fetch('http://localhost:3000/palettes', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: 'untitled',
+                    colors: state.selected_colors
+                })
+            })
+            location.replace('/');
+            }
+           
+        })
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+body {
+    background: rgb(245, 245, 245);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 160px 0 0 0;
+}
+
+.customization h2 {
+    text-align: center;
+}
+
+header {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    background: white;
+    box-shadow: 0px 0px 5px 0px #cccccc;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 4px solid crimson;
+    position: fixed;
+    width: 100%;
+    height: 80px;
+    top: 0;
+}
+
+header a {
+    background: rgb(240, 240, 240);
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+header > img.speedo {
+    width: 135px;
+    height: 27px;
+}
+
+header > h1 {
+    margin: 0;
+    padding: 0;
+    font-weight: lighter;
+    font-size: 1.5em;
+}
+
+header.subheader {
+    top: 80px;
+    border: none;
+    height: 60px;
+}
+
+.colors {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 100px);
+    row-gap: 4px;
+    column-gap: 4px;
+    margin: auto;
+    justify-content: center;
+}
+
+.colors > div {
+    color: white;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.colors > div.selected {
+    border: 4px solid crimson;
+}
+
+
+.palette-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 220px);
+    row-gap: 10px;
+    column-gap: 10px;
+    justify-content: center;
+
+}
+
+.palette {
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 8px 0px #a3b4be;
+    background: white;
+    justify-content: center;
+}
+
+.design {
+    display: flex;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 8px 0px #a3b4be;
+    background: white;
+    justify-content: center;
+}
+
+.palette > img {
+    display: block;
+    margin: auto;
+}
+
+h2 {
+    margin: 10px 0;
+    padding: 0;
+    font-weight: 100;
+    font-size: 1.25em;
+}
+
+.palette > .colors {
+    border-radius: 5px;
+    height: 200px;
+    width: 200px;
+    display: flex;
+    overflow: hidden;
+}
+
+.palette > .colors > div {
+    height: 200px;
+    width: 100%;
+    border-radius: 0;
+    border: none;
+}
