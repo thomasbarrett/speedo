@@ -32,7 +32,7 @@
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     };
 
-    fetch('http://157.230.198.94/palettes', {
+    fetch('https://triceratalk.com/palettes', {
         redirect: 'error',
     })
         .then(res => res.json())

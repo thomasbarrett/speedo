@@ -76,7 +76,7 @@
             }
        
 
-            fetch('http://157.230.198.94/palettes', {
+            fetch('https://triceratalk.com/palettes', {
                 redirect: 'error',
             })
             .then(res => res.json())
@@ -105,7 +105,7 @@
             publish.addEventListener('click', () => {
                 var fd = new FormData();
                 fd.append('file', dataURItoBlob(dataURL()));
-                fetch('http://157.230.198.94/publish', {
+                fetch('https://triceratalk.com/publish', {
                     method: 'post',
                     body: fd,
                 })
