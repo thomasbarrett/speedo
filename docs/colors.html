@@ -67,16 +67,16 @@
         new_palette.addEventListener('click', (e) => {
             if (state.selected_colors.length > 0) {
                 fetch('https://triceratalk.com/palettes', {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: 'untitled',
-                    colors: state.selected_colors
-                })
-            })
-            location.replace('/speedo');
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: 'untitled',
+                        colors: state.selected_colors
+                    })
+                });
+               // location.replace('/speedo');
             }
         })
 
