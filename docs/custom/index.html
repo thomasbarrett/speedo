@@ -76,7 +76,7 @@
             }
        
 
-            fetch('http://localhost:3000/palettes')
+            fetch('http://157.230.198.94/palettes')
             .then(res => res.json())
             .then(json => {
                 
@@ -103,7 +103,7 @@
             publish.addEventListener('click', () => {
                 var fd = new FormData();
                 fd.append('file', dataURItoBlob(dataURL()));
-                fetch('http://localhost:3000/publish', {
+                fetch('http://157.230.198.94/publish', {
                     method: 'post',
                     body: fd,
                 })

@@ -31,7 +31,7 @@
     <script type="module">
 
         const palette_list = document.getElementById('palette-list');
-        fetch('http://localhost:3000/designs')
+        fetch('http://157.230.198.94/designs')
         .then(res => res.json())
         .then(json => {
             json.designs.forEach((design, index) => {

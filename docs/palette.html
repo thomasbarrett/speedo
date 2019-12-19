@@ -32,7 +32,7 @@
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     };
 
-    fetch('http://localhost:3000/palettes')
+    fetch('http://157.230.198.94/palettes')
         .then(res => res.json())
         .then(json => {
             const index = getUrlParameter('index');
