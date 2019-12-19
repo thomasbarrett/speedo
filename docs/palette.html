@@ -32,7 +32,9 @@
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     };
 
-    fetch('http://157.230.198.94/palettes')
+    fetch('http://157.230.198.94/palettes', {
+        redirect: 'error',
+    })
         .then(res => res.json())
         .then(json => {
             const index = getUrlParameter('index');

@@ -67,6 +67,7 @@
         new_palette.addEventListener('click', (e) => {
             if (state.selected_colors.length > 0) {
                 fetch('http://157.230.198.94/palettes', {
+                redirect: 'error',
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'

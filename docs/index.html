@@ -31,7 +31,9 @@
     <script type="module">
 
         const palette_list = document.getElementById('palette-list');
-        fetch('http://157.230.198.94/palettes')
+        fetch('http://157.230.198.94/palettes', {
+            redirect: 'error',
+        })
         .then(res => res.json())
         .then(json => {
             json.palettes.forEach((palette, index) => {
