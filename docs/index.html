@@ -58,6 +58,14 @@
                 const title = document.createElement('h2')
                 title.innerText = palette.name
                 palette_element.appendChild(title)
+                
+                const creator = document.createElement('i')
+                creator.innerText = 'swimmerdude1';
+                palette_element.appendChild(creator)
+
+                const date = document.createElement('p')
+                date.innerText = 'today';
+                palette_element.appendChild(date)
 
                 palette_list.appendChild(palette_element)
             })
