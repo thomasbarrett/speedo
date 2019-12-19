@@ -2,12 +2,29 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const multer = require('multer');
+const https = require('https');
+const fs = require('fs');
 const app = express()
 const port = 3000
+
+// Certificate
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/triceratalk.com/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/triceratalk.com/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/triceratalk.com/chain.pem', 'utf8');
+
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
+  
+// Create HTTP Server
+const httpsServer = https.createServer(credentials, app);
 
 app.use(cors())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
+app.use('/static', express.static('docs/uploads'))
 
 const colors = [];
 const palettes = [];
@@ -15,7 +32,7 @@ const designs = [];
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'public/uploads')
+      cb(null, 'docs/uploads')
     },
     filename: function (req, file, cb) {
       cb(null, file.fieldname + '-' + Date.now() + '.png')
@@ -47,7 +64,9 @@ class Color {
 
 app.get('/designs', (req, res) => res.json({designs}))
 app.get('/colors', (req, res) => res.json({colors}))
-app.get('/palettes', (req, res) => res.json({palettes}))
+app.get('/palettes', (req, res) => {
+    res.json({palettes})
+});
 app.post('/colors', (req, res) => {
     const color = new Color(req.body.color);
     colors.push(color);
@@ -63,9 +82,9 @@ app.post('/publish', upload.single('file'), (req, res) => {
     if (!req.file) {
         res.status(400).end();
     } else {
-        designs.push(req.file.path.substr('public'.length));
+        designs.push('https://triceratalk.com/static/' + req.file.path.substr('/docs/uploads'.length));
         res.status(200).end();
     }
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+httpsServer.listen(443, () => console.log(`Server Started!`));
