@@ -23,6 +23,7 @@
         <a id='new-palette'>New Palette with Selection</a>
     </header>
 
+
     <div class='palette-list' id='palette-list'></div>
     <div class='colors' id='color-list'></div>
     <script type="module">
@@ -75,8 +76,9 @@
                         name: 'untitled',
                         colors: state.selected_colors
                     })
+                }).then((e) => {
+                    location.replace('/speedo');
                 });
-               location.replace('/speedo');
             }
         })
 
