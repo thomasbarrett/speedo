@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "target": "es2015",
+    "watch": false
+  },
+  "compileOnSave": true,
+  "include": [
+    "./src/**/*.ts",
+  ],
+}
