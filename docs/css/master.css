@@ -54,8 +54,8 @@ header.subheader {
 
 .colors {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 100px);
-    grid-gap: 4px;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-auto-rows: 100px;
     margin: auto;
     justify-content: center;
 }
@@ -129,7 +129,6 @@ h2 {
     border-radius: 5px;
     height: 200px;
     width: 200px;
-    display: flex;
     overflow: hidden;
 }
 
