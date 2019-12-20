@@ -113,7 +113,7 @@
             
             function run(index) {
             
-            let colors = json.palettes[index].colors.map(color => color.hexcode);
+            let colors = json.palettes[index].colors;
             
             let activeElement = null;
 
@@ -124,17 +124,36 @@
             patterns_row.innerHTML = '';
 
             colors.forEach(color => {
-                let colorElement = document.createElement('div');
-                colorElement.classList.add('square');
-                colorElement.style.background = color;
-                colorElement.onclick = () => {
-                    activeElement.forEach(element => {
-                        element.material = element.material.clone();
-                        element.material.color.set(parseInt(color.substr(1), 16));
-                        element.material.needsUpdate = true;
-                    })
+                console.log(color);
+                if (color.type === 'pattern') {
+                    let colorElement = document.createElement('div');
+                    colorElement.classList.add('square');
+                    colorElement.style.backgroundImage = `url('${color.uri}')`;
+                    colorElement.onclick = () => {
+                        activeElement.forEach(element => {
+                            let solid_map = THREE.ImageUtils.loadTexture(color.uri);
+                            solid_map.wrapT = THREE.MirroredRepeatWrapping;
+                            solid_map.wrapS = THREE.MirroredRepeatWrapping
+                            element.material = element.material.clone();
+                            element.material.map = solid_map;
+                            element.material.needsUpdate = true;
+                        })
+                    }
+                    color_row.appendChild(colorElement);
+                } else {
+                    let colorElement = document.createElement('div');
+                    colorElement.classList.add('square');
+                    colorElement.style.background = color.hexcode;
+                    colorElement.onclick = () => {
+                        activeElement.forEach(element => {
+                            element.material = element.material.clone();
+                            element.material.color.set(parseInt(color.hexcode.substr(1), 16));
+                            element.material.needsUpdate = true;
+                        })
+                    }
+                    color_row.appendChild(colorElement);
                 }
-                color_row.appendChild(colorElement);
+               
             })
 
 
