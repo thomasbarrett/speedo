@@ -128,7 +128,7 @@
                 if (color.type === 'pattern') {
                     let colorElement = document.createElement('div');
                     colorElement.classList.add('square');
-                    colorElement.style.backgroundImage = `url('${color.uri}')`;
+                    colorElement.style.backgroundImage = `url('/speedo${color.uri}')`;
                     colorElement.onclick = () => {
                         activeElement.forEach(element => {
                             let solid_map = THREE.ImageUtils.loadTexture(color.uri);

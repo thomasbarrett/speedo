@@ -80,7 +80,7 @@
                 uri: uri
             };
             const img = document.createElement('img');
-            img.src = uri;
+            img.src = '/speedo' + uri;
             img.addEventListener('click', (e) => {
                 img.classList.toggle('selected');
                 state.toggle(pattern);
