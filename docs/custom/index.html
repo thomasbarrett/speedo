@@ -131,7 +131,7 @@
                     colorElement.style.backgroundImage = `url('/speedo${color.uri}')`;
                     colorElement.onclick = () => {
                         activeElement.forEach(element => {
-                            let solid_map = THREE.ImageUtils.loadTexture(color.uri);
+                            let solid_map = THREE.ImageUtils.loadTexture('/speedo' + color.uri);
                             solid_map.wrapT = THREE.MirroredRepeatWrapping;
                             solid_map.wrapS = THREE.MirroredRepeatWrapping
                             element.material = element.material.clone();
