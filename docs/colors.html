@@ -30,7 +30,7 @@
 
         const state = {
             selected_colors: [],
-            toggle_color: function (color) {
+            toggle: function (color) {
                 if (this.selected_colors.includes(color)) {
                     this.selected_colors = this.selected_colors.filter(c => c !== color);
                 } else {
@@ -52,6 +52,7 @@
         list.innerHTML = '';
         for (let i = 0; i < 64; i++) {
             const color = {
+                type: 'color',
                 hexcode: randomColor()
             }
             const div = document.createElement('div');
@@ -59,10 +60,33 @@
             div.innerText = color.hexcode;
             div.addEventListener('click', (e) => {
                 div.classList.toggle('selected');
-                state.toggle_color(color);
+                state.toggle(color);
             })
             list.appendChild(div);
         }
+
+        const patterns = [
+            '/custom/images/prints/spiral.jpg',
+            '/custom/images/prints/cool.jpg',
+            '/custom/images/prints/checkers.jpg',
+            '/custom/images/prints/hexagon.jpg',
+            '/custom/images/prints/zebra.png',
+            '/custom/images/prints/leopard.jpg',
+        ]
+
+        patterns.forEach(uri => {
+            const pattern = {
+                type: 'pattern',
+                uri: uri
+            };
+            const img = document.createElement('img');
+            img.src = uri;
+            img.addEventListener('click', (e) => {
+                img.classList.toggle('selected');
+                state.toggle(pattern);
+            })
+            list.appendChild(img);
+        });
 
         const new_palette = document.getElementById('new-palette');
         new_palette.addEventListener('click', (e) => {
