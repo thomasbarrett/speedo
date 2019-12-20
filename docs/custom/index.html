@@ -149,8 +149,8 @@
                             let solid_map = THREE.ImageUtils.loadTexture('/speedo' + color.uri);
                             solid_map.wrapT = THREE.MirroredRepeatWrapping;
                             solid_map.wrapS = THREE.MirroredRepeatWrapping;
-                            solid_map.repeat.set(repeat.value / 100, repeat.value / 100 );
-                            solid_map.offset.set(x_offset.value / 100, y_offset.vaue / 100);
+                            solid_map.repeat.set(repeat.value / 100, repeat.value / 100);
+                            solid_map.offset.set(x_offset.value / 100, y_offset.value / 100);
                             console.log(solid_map);
                             element.material = element.material.clone();
                             element.material.map = solid_map;
