@@ -79,13 +79,13 @@
                 type: 'pattern',
                 uri: uri
             };
-            const img = document.createElement('img');
-            img.src = '/speedo' + uri;
-            img.addEventListener('click', (e) => {
-                img.classList.toggle('selected');
+            const div = document.createElement('div');
+            div.style.backgroundImage = `url('/speedo${color.uri}')`;
+            div.addEventListener('click', (e) => {
+                div.classList.toggle('selected');
                 state.toggle(pattern);
             })
-            list.appendChild(img);
+            list.appendChild(div);
         });
 
         const new_palette = document.getElementById('new-palette');
