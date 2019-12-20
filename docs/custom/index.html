@@ -135,7 +135,8 @@
                             solid_map.wrapT = THREE.MirroredRepeatWrapping;
                             solid_map.wrapS = THREE.MirroredRepeatWrapping;
                             solid_map.repeat.set(0.3, 0.3);
-                            solid_map.offset.set(0.6, 0.2);
+                            solid_map.offset.set(0.6, 0.15);
+                            console.log(solid_map);
                             element.material = element.material.clone();
                             element.material.map = solid_map;
                             element.material.needsUpdate = true;
