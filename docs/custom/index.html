@@ -41,6 +41,17 @@
             </div>
             <div class="patterns row"></div>
             <div class="colors row"></div>
+            <div>
+                <input type="range" id="repeat" name="repeat"
+                       min="0" max="100" value="20">
+                <label for="repeat">repeat</label>
+                <input type="range" id="x-offset" name="x-offset"
+                       min="0" value="90" max="100">
+                <label for="x-offset">x offset</label>
+                <input type="range" id="y-offset" name="y-offset"
+                       min="=-50" value="-10" max="50">
+                <label for="y-offset">y offset</label>
+            </div>
         </div>
         </div>
         <script>
@@ -131,11 +142,15 @@
                     colorElement.style.backgroundImage = `url('/speedo${color.uri}')`;
                     colorElement.onclick = () => {
                         activeElement.forEach(element => {
+                            const repeat = document.getElementById('repeat');
+                            const x_offset = document.getElementById('x-offset');
+                            const y_offset = document.getElementById('y-offset');
+
                             let solid_map = THREE.ImageUtils.loadTexture('/speedo' + color.uri);
                             solid_map.wrapT = THREE.MirroredRepeatWrapping;
                             solid_map.wrapS = THREE.MirroredRepeatWrapping;
-                            solid_map.repeat.set(0.2, 0.2);
-                            solid_map.offset.set(0.9, -0.1);
+                            solid_map.repeat.set(repeat.value / 100, repeat.value / 100 );
+                            solid_map.offset.set(x_offset.value / 100, y_offset.vaue / 100);
                             console.log(solid_map);
                             element.material = element.material.clone();
                             element.material.map = solid_map;
